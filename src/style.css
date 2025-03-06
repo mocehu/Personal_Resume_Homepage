@@ -79,6 +79,7 @@ button:focus-visible {
 }
 
 .btn-secondary {
+  color: var(--primary-light);
   background: white;
 }
 
