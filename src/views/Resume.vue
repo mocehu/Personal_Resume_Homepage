@@ -30,9 +30,9 @@
                         </div>
                     </div>
                     <div class="info-item card">
-                        <i class="fas fa-phone info-icon"></i>
+                        <i class="fa-brands fa-weixin info-icon"></i>
                         <div>
-                            <span class="info-label">电话</span>
+                            <span class="info-label">微信</span>
                             <span class="info-value clickable"
                                 @click="copyToClipboard('13800138000')">138-0013-8000</span>
                         </div>
@@ -53,10 +53,10 @@
                         </div>
                     </div>
                     <div class="info-item card">
-                        <i class="fab fa-linkedin info-icon"></i>
+                        <i class="fab fa-telegram info-icon"></i>
                         <div>
-                            <span class="info-label">LinkedIn</span>
-                            <a class="info-value link" href="https://linkedin.com/in/username"
+                            <span class="info-label">Telegram</span>
+                            <a class="info-value link" href=""
                                 target="_blank">@username</a>
                         </div>
                     </div>
@@ -153,8 +153,8 @@
             <!-- 页脚 -->
             <footer class="resume-footer card">
                 <div class="footer-content">
-                    <i class="fas fa-heart footer-icon"></i>
-                    <p class="footer-text">感谢您的观看</p>
+                    <!-- <i class="fas fa-heart footer-icon"></i> -->
+                    <p class="footer-text">没有更多了哟，感谢您的耐心观看❤️</p>
                 </div>
             </footer>
         </div>
@@ -640,7 +640,6 @@ onUnmounted(() => {
 .resume-footer {
     margin-top: 3rem;
     padding: 2rem;
-    /* background: linear-gradient(to right, rgba(59, 130, 246, 0.1), rgba(147, 197, 253, 0.1)); */
 }
 
 .footer-content {
@@ -658,8 +657,8 @@ onUnmounted(() => {
 
 .footer-text {
     font-size: 1.2rem;
-    color: #2c3e50;
-    font-weight: 500;
+    color: var(--primary-dark);
+    font-weight: bold;
 }
 
 @keyframes pulse {

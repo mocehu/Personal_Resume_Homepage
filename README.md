@@ -1,5 +1,25 @@
-# Vue 3 + Vite
+# 个人主页
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 简介
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+包含项目列表和个人简历两部分，其他页面可自行添加，本项目不包含任何个人真实信息
+
+
+
+项目亮点：
+
+- 简洁大方的UI设计风格
+- 技术栈词云动态背景
+- 响应式优化
+
+
+
+
+
+部分截图
+
+![image-20250306154043603](assets/image-20250306154043603.png)
+
+![image-20250306154128265](assets/image-20250306154128265.png)
+
+![image-20250306154140441](assets/image-20250306154140441.png)
