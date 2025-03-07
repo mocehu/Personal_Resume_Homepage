@@ -40,15 +40,16 @@
                         <i class="fas fa-envelope info-icon"></i>
                         <div>
                             <span class="info-label">邮箱</span>
-                            <span class="info-value clickable"
-                                @click="copyToClipboard(personalInfo.contact.email)">{{ personalInfo.contact.email }}</span>
+                            <span class="info-value clickable" @click="copyToClipboard(personalInfo.contact.email)">{{
+            personalInfo.contact.email }}</span>
                         </div>
                     </div>
                     <div class="info-item card">
                         <i class="fab fa-github info-icon"></i>
                         <div>
                             <span class="info-label">Gitee</span>
-                            <a class="info-value link" :href="personalInfo.contact.gitee" target="_blank">{{ personalInfo.contact.giteeUsername }}</a>
+                            <a class="info-value link" :href="personalInfo.contact.gitee" target="_blank">{{
+            personalInfo.contact.giteeUsername }}</a>
                         </div>
                     </div>
                     <div class="info-item card">
@@ -64,6 +65,23 @@
                             <span class="info-label">地点</span>
                             <span class="info-value">{{ personalInfo.location }}</span>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 工作经历 -->
+            <section class="section" id="experience">
+                <h2 class="section-title">工作经历</h2>
+                <div class="timeline">
+                    <div v-for="job in workExperience" :key="job.id" class="timeline-item card">
+                        <div class="timeline-header">
+                            <h3 class="company-name">{{ job.company }}</h3>
+                            <span class="time-period">{{ job.period }}</span>
+                        </div>
+                        <p class="job-title">{{ job.title }}</p>
+                        <ul class="job-responsibilities">
+                            <li v-for="(item, index) in job.responsibilities" :key="index">{{ item }}</li>
+                        </ul>
                     </div>
                 </div>
             </section>
@@ -103,26 +121,12 @@
                         </div>
                     </div>
                     <div class="other-skills card">
-                        <ul class="skill-list">
-                            <li v-for="skill in otherSkills" :key="skill">{{ skill }}</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 工作经历 -->
-            <section class="section" id="experience">
-                <h2 class="section-title">工作经历</h2>
-                <div class="timeline">
-                    <div v-for="job in workExperience" :key="job.id" class="timeline-item card">
-                        <div class="timeline-header">
-                            <h3 class="company-name">{{ job.company }}</h3>
-                            <span class="time-period">{{ job.period }}</span>
+                        <div class="other-skills-content" v-for="(skills, title) in otherSkills" :key="skill">
+                            <h4 class="skill-title">{{ title }}</h4>
+                            <ul class="skill-list">
+                                <li v-for="skill in skills" :key="skill">{{ skill }}</li>
+                            </ul>
                         </div>
-                        <p class="job-title">{{ job.title }}</p>
-                        <ul class="job-responsibilities">
-                            <li v-for="(item, index) in job.responsibilities" :key="index">{{ item }}</li>
-                        </ul>
                     </div>
                 </div>
             </section>
@@ -528,8 +532,14 @@ onUnmounted(() => {
 
 .other-skills {
     background: white;
-    padding: 1.5rem;
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.other-skills-content {
+    margin: 5px;
 }
 
 .skill-list {
@@ -543,7 +553,7 @@ onUnmounted(() => {
 
 .skill-list li {
     color: #2c3e50;
-    padding: 0.2rem 0;
+    padding: 0.5rem 0;
     position: relative;
     padding-left: 1.5rem;
 }
