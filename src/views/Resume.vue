@@ -19,22 +19,21 @@
                         <i class="fas fa-user info-icon"></i>
                         <div>
                             <span class="info-label">姓名</span>
-                            <span class="info-value">某某</span>
+                            <span class="info-value">{{ personalInfo.name }}</span>
                         </div>
                     </div>
                     <div class="info-item card">
                         <i class="fas fa-briefcase info-icon"></i>
                         <div>
                             <span class="info-label">职位</span>
-                            <span class="info-value">前端开发工程师</span>
+                            <span class="info-value">{{ personalInfo.position }}</span>
                         </div>
                     </div>
                     <div class="info-item card">
                         <i class="fa-brands fa-weixin info-icon"></i>
                         <div>
                             <span class="info-label">微信</span>
-                            <span class="info-value clickable"
-                                @click="copyToClipboard('13800138000')">138-0013-8000</span>
+                            <span class="info-value clickable" @click="showQrcodeModal('wechat')">点击查看二维码</span>
                         </div>
                     </div>
                     <div class="info-item card">
@@ -42,29 +41,28 @@
                         <div>
                             <span class="info-label">邮箱</span>
                             <span class="info-value clickable"
-                                @click="copyToClipboard('example@email.com')">example@email.com</span>
+                                @click="copyToClipboard(personalInfo.contact.email)">{{ personalInfo.contact.email }}</span>
                         </div>
                     </div>
                     <div class="info-item card">
                         <i class="fab fa-github info-icon"></i>
                         <div>
-                            <span class="info-label">Github</span>
-                            <a class="info-value link" href="https://github.com/username" target="_blank">@username</a>
+                            <span class="info-label">Gitee</span>
+                            <a class="info-value link" :href="personalInfo.contact.gitee" target="_blank">{{ personalInfo.contact.giteeUsername }}</a>
                         </div>
                     </div>
                     <div class="info-item card">
                         <i class="fab fa-telegram info-icon"></i>
                         <div>
                             <span class="info-label">Telegram</span>
-                            <a class="info-value link" href=""
-                                target="_blank">@username</a>
+                            <span class="info-value clickable" @click="showQrcodeModal('telegram')">点击查看二维码</span>
                         </div>
                     </div>
                     <div class="info-item card">
                         <i class="fas fa-map-marker-alt info-icon"></i>
                         <div>
                             <span class="info-label">地点</span>
-                            <span class="info-value">北京</span>
+                            <span class="info-value">{{ personalInfo.location }}</span>
                         </div>
                     </div>
                 </div>
@@ -75,12 +73,14 @@
                 <h2 class="section-title">教育背景</h2>
                 <div class="education">
                     <div v-for="edu in education" :key="edu.id" class="education-item card">
+                        <h3 class="school-name">{{ edu.school }}</h3>
                         <div class="education-header">
-                            <h3 class="school-name">{{ edu.school }}</h3>
+                            <p class="degree">{{ edu.major }} | {{ edu.degree }}</p>
                             <span class="time-period">{{ edu.period }}</span>
                         </div>
-                        <p class="degree">{{ edu.degree }}</p>
-                        <p class="major">{{ edu.major }}</p>
+                        <ul class="edu-responsibilities">
+                            <li v-for="(item, index) in edu.responsibilities" :key="index">{{ item }}</li>
+                        </ul>
                     </div>
                 </div>
             </section>
@@ -127,8 +127,6 @@
                 </div>
             </section>
 
-
-
             <!-- 项目经历 -->
             <section class="section" id="projects">
                 <h2 class="section-title">项目经历</h2>
@@ -158,108 +156,33 @@
                 </div>
             </footer>
         </div>
+        <QrcodeModal v-model:show="showQrcode" :title="qrcodeTitle" :qrcode-url="qrcodeUrl" />
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import QrcodeModal from '../components/QrcodeModal.vue';
+import telegramQrcode from '../assets/resume/telegram_qrcode.png';
+import wechatQrcode from '../assets/resume/wechat_qrcode.png';
+import { personalInfo, education, workExperience, resumeProjects, skillLevels, skillCategories, otherSkills, sections } from '../data/personalData';
 
-const projects = ref([
-    {
-        id: 1,
-        title: '企业级电商平台',
-        period: '2022年3月 - 2022年12月',
-        description: '基于Vue.js和Node.js的全栈电商解决方案',
-        responsibilities: [
-            '负责前端架构设计和核心功能开发',
-            '实现了高性能的商品搜索和筛选功能',
-            '优化了购物车和结算流程的用户体验'
-        ],
-        technologies: ['Vue.js', 'Node.js', 'MongoDB', 'Redis']
-    },
-    {
-        id: 2,
-        title: '数据可视化平台',
-        period: '2021年6月 - 2022年2月',
-        description: '企业级数据分析和可视化系统',
-        responsibilities: [
-            '设计和实现了复杂的数据图表展示功能',
-            '开发了实时数据更新和监控模块',
-            '集成了多种数据源的接入方案'
-        ],
-        technologies: ['React', 'TypeScript', 'ECharts', 'WebSocket']
-    }
-]);
 
-const getSkillLevel = (skill) => {
-    const levels = {
-        'Vue.js': 90,
-        'React': 85,
-        'TypeScript': 85,
-        'Webpack': 80,
-        'Tailwind CSS': 85,
-        'Node.js': 80,
-        'Express': 75,
-        'MongoDB': 70,
-        'RESTful API': 85,
-        'Git': 90,
-        'VS Code': 95,
-        'Docker': 75,
-        'Figma': 80,
-        '团队协作': 90,
-        '项目管理': 85,
-        '问题解决': 90,
-        '技术文档编写': 85
-    };
-    return levels[skill] || 70;  // 默认值70%
+const showQrcode = ref(false);
+const qrcodeTitle = ref('');
+const qrcodeUrl = ref('');
+
+const showQrcodeModal = (type) => {
+    qrcodeTitle.value = type === 'wechat' ? '微信二维码' : 'Telegram二维码';
+    qrcodeUrl.value = type === 'wechat' ? wechatQrcode : telegramQrcode;
+    showQrcode.value = true;
 };
 
-const skillCategories = ref({
-    '核心技能': ['Vue.js', 'React', 'TypeScript', 'Node.js']
-});
+const projects = ref(resumeProjects);
 
-const otherSkills = ref([
-    '精通Socket网络编程和WebSocket实时通信技术',
-    '熟练掌握MySQL、MongoDB等数据库的设计与优化',
-    '深入理解RESTful API设计原则和微服务架构',
-    '熟练使用Docker容器化技术和CI/CD流程',
-    '具备良好的代码重构能力和设计模式应用经验'
-]);
-
-const workExperience = ref([
-    {
-        id: 1,
-        company: 'XX科技有限公司',
-        period: '2021年6月 - 至今',
-        title: '高级前端开发工程师',
-        responsibilities: [
-            '负责公司核心产品的前端架构设计和开发',
-            '优化前端性能，提升用户体验',
-            '指导初级开发者，组织技术分享会'
-        ]
-    },
-    {
-        id: 2,
-        company: 'YY互联网公司',
-        period: '2019年7月 - 2021年5月',
-        title: '前端开发工程师',
-        responsibilities: [
-            '参与多个项目的前端开发工作',
-            '实现响应式设计，确保跨平台兼容性',
-            '与后端团队协作，优化接口设计'
-        ]
-    }
-]);
-
-const education = ref([
-    {
-        id: 1,
-        school: 'XX大学',
-        period: '2015年9月 - 2019年6月',
-        degree: '本科',
-        major: '计算机科学与技术'
-    }
-]);
+const getSkillLevel = (skill) => {
+    return skillLevels[skill] || 70;  // 默认值70%
+};
 
 const copyToClipboard = async (text) => {
     try {
@@ -269,14 +192,6 @@ const copyToClipboard = async (text) => {
         console.error('复制失败:', err);
     }
 };
-
-const sections = ref([
-    { id: 'personal-info', title: '个人信息' },
-    { id: 'education', title: '教育背景' },
-    { id: 'skills', title: '技能特长' },
-    { id: 'experience', title: '工作经历' },
-    { id: 'projects', title: '项目经历' }
-]);
 
 const showToc = ref(true);
 const showBackToTop = ref(false);
@@ -325,7 +240,8 @@ onUnmounted(() => {
 
 .section-title {
     color: #2c3e50;
-    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
     padding-bottom: 0.5rem;
     font-size: 1.75rem;
 }
@@ -524,12 +440,14 @@ onUnmounted(() => {
     gap: 1rem;
 }
 
+.edu-responsibilities,
 .project-responsibilities {
     color: #64748b;
     padding-left: 1.25rem;
     margin: 0;
 }
 
+.edu-responsibilities li,
 .project-responsibilities li {
     margin-bottom: 0.5rem;
 }
@@ -545,6 +463,7 @@ onUnmounted(() => {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
 }
 
 .school-name {
@@ -624,7 +543,7 @@ onUnmounted(() => {
 
 .skill-list li {
     color: #2c3e50;
-    padding: 0.5rem 0;
+    padding: 0.2rem 0;
     position: relative;
     padding-left: 1.5rem;
 }
@@ -665,9 +584,11 @@ onUnmounted(() => {
     0% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.2);
     }
+
     100% {
         transform: scale(1);
     }

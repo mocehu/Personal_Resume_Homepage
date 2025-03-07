@@ -1,0 +1,126 @@
+// 个人信息数据文件
+// 用于集中管理个人信息，方便开源时保护隐私
+
+export const personalInfo = {
+    name: 'XXX',
+    position: '全栈开发工程师',
+    location: '武汉',
+    contact: {
+        email: 'XXX@foxmail.com',
+        gitee: 'https://gitee.com/XXX',
+        giteeUsername: '@XXX'
+    }
+};
+
+export const education = [
+    {
+        id: 1,
+        school: 'xx大学',
+        period: '2019.9 - 2023.6',
+        degree: '本科',
+        major: '计算机科学与技术',
+        responsibilities: [
+            '荣誉奖项：CET-6 软考网络工程师证书 第十三届蓝桥杯软件类C/C++程序设计大学B组国赛二等奖',
+            '专业成绩：班级排名前10%，GPA 3.9',
+            '主修课程：操作系统、离散数学、计算机组成原理、计算机系统结构、面向对象的程序设计、数据库原理、计算机网络、软件测试等']
+    },
+    {
+        id: 2,
+        school: 'xx大学',
+        period: '2023.9 - 至今',
+        degree: '硕士',
+        major: '人工智能',
+        responsibilities: [
+            '荣誉奖项：国家奖学金 2023年全国大学生数学建模竞赛二等奖',
+        ]
+    }
+];
+
+export const workExperience = [
+    {
+        id: 1,
+        company: 'xx信息技术有限公司',
+        period: '2023年7月 - 至今',
+        title: '后端开发工程师',
+        responsibilities: [
+            '负责公司核心项目的开发维护以及新产品的预研工作',
+        ]
+    },
+    {
+        id: 2,
+        company: 'xx科技有限公司',
+        period: '2021年寒假',
+        title: '运营实习生',
+        responsibilities: [
+            '负责活动的前后宣传工作，包括线上活动文案推广、线下活动海报、宣传物料设计及制作。'
+        ]
+    }
+];
+
+export const resumeProjects = [
+    {
+        id: 1,
+        title: '企业级电商平台',
+        period: '2022年3月 - 2022年12月',
+        description: '基于Vue.js和Node.js的全栈电商解决方案',
+        responsibilities: [
+            '负责前端架构设计和核心功能开发',
+            '实现了高性能的商品搜索和筛选功能',
+            '优化了购物车和结算流程的用户体验'
+        ],
+        technologies: ['Vue.js', 'Node.js', 'MongoDB', 'Redis']
+    },
+    {
+        id: 2,
+        title: '数据可视化平台',
+        period: '2021年6月 - 2022年2月',
+        description: '企业级数据分析和可视化系统',
+        responsibilities: [
+            '设计和实现了复杂的数据图表展示功能',
+            '开发了实时数据更新和监控模块',
+            '集成了多种数据源的接入方案'
+        ],
+        technologies: ['React', 'TypeScript', 'ECharts', 'WebSocket']
+    }
+];
+
+export const portfolioProjects = [
+    {
+        id: 1,
+        title: 'XX项目',
+        description: '项目描述，巴拉巴拉巴拉',
+        tags: ['Vue.js', 'JavaScript', 'Antdv', 'Node.js', 'PostgreSQL'],
+        demo: '',
+        github: 'https://github.com/'
+    },
+];
+
+export const skillLevels = {
+    'Vue.js': 80,
+    'JavaScript': 85,
+    'MongoDB': 70,
+    'Python': 90,
+    'Git': 90,
+    'VS Code': 95,
+    'Docker': 75,
+    'Figma': 90
+};
+
+export const skillCategories = {
+    '核心技能': ['Python', 'Vue.js', 'JavaScript', 'Figma']
+};
+
+export const otherSkills = [
+    '精通各类编程语言',
+    '可以手搓操作系统和大模型',
+    '精通数据结构和算法',
+    '精通所有关系型和非关系型数据库的原理及优化'
+];
+
+export const sections = [
+    { id: 'personal-info', title: '个人信息' },
+    { id: 'education', title: '教育经历' },
+    { id: 'skills', title: '技能特长' },
+    { id: 'experience', title: '工作经历' },
+    { id: 'projects', title: '项目经历' }
+];

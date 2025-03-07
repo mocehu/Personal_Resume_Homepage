@@ -9,8 +9,8 @@ import TechKeywords from './components/TechKeywords.vue'
 
     <nav class="nav">
       <RouterLink to="/" class="nav-link">首页</RouterLink>
-      <RouterLink to="/projects" class="nav-link">项目</RouterLink>
       <RouterLink to="/resume" class="nav-link">简历</RouterLink>
+      <RouterLink to="/projects" class="nav-link">项目</RouterLink>
     </nav>
     <main class="main">
       <RouterView />

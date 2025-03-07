@@ -18,14 +18,14 @@ import { ref, onMounted, onUnmounted } from 'vue';
 const keywords = [
   'JavaScript',
   'Python',
-  'React',
+  'Linux',
   'Vue',
-  'TypeScript',
-  'Node.js',
+  'Redis',
+  'CSS',
   'HTML',
   'CSS',
-  'Java',
-  'PHP',
+  'Docker',
+  'MySQL',
   'Go',
   'C/C++'
 ];

@@ -3,7 +3,10 @@
         <h1 class="page-title">我的项目</h1>
         <div class="projects-grid">
             <div v-for="project in projects" :key="project.id" class="project-card card">
-                <div class="project-image" :style="{ backgroundImage: `url(${project.image})` }"></div>
+
+                <img :src="project.image" class="project-image">
+
+                <!-- <div class="project-image" :style="{ backgroundImage: `url(${project.image})` }"></div> -->
                 <div class="project-content">
                     <h2 class="project-title">{{ project.title }}</h2>
                     <p class="project-description">{{ project.description }}</p>
@@ -17,7 +20,7 @@
                         </a>
                         <a :href="project.github" target="_blank" class="btn btn-secondary" v-if="project.github">
                             <i class="fab fa-github"></i>
-                            Github
+                            开源地址
                         </a>
                     </div>
                 </div>
@@ -28,36 +31,29 @@
 
 <script setup>
 import { ref } from 'vue';
+import { portfolioProjects } from '../data/personalData';
+import Image1 from '../assets/projects/1.png'
+import Image2 from '../assets/projects/2.png'
+import Image3 from '../assets/projects/3.png'
 
-const projects = ref([
-    {
-        id: 1,
-        title: '项目一',
-        description: '这是一个示例项目描述，展示了项目的主要功能和特点。这里可以写比较长的描述，布局会自动适应。',
-        image: 'https://via.placeholder.com/400x300',
-        tags: ['Vue.js', 'TypeScript', 'Tailwind CSS'],
-        demo: 'https://demo.example.com/project1',
-        github: 'https://github.com/username/project1'
-    },
-    {
-        id: 2,
-        title: '项目二',
-        description: '另一个精彩的项目示例，展示了不同的技术栈和实现方案。',
-        image: 'https://via.placeholder.com/400x300',
-        tags: ['React', 'Node.js', 'MongoDB'],
-        demo: 'https://demo.example.com/project2',
-        github: 'https://github.com/username/project2'
-    },
-    {
-        id: 3,
-        title: '项目二',
-        description: '另一个精彩的项目示例，展示了不同的技术栈和实现方案。',
-        image: 'https://via.placeholder.com/400x300',
-        tags: ['React', 'Node.js', 'MongoDB'],
-        demo: 'https://demo.example.com/project2',
-        github: 'https://github.com/username/project2'
+const projects = ref(portfolioProjects.map(project => {
+    // 根据项目ID匹配对应的图片
+    let image;
+    switch(project.id) {
+        case 1:
+            image = Image1;
+            break;
+        case 2:
+            image = Image2;
+            break;
+        case 3:
+            image = Image3;
+            break;
+        default:
+            image = '';
     }
-]);
+    return { ...project, image };
+}));
 </script>
 
 <style scoped>
@@ -67,14 +63,16 @@ const projects = ref([
 }
 
 .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
+    columns: 3;
+    column-gap: 2rem;
     max-width: 1200px;
     margin: 0 auto;
 }
 
 .project-card {
+    break-inside: avoid;
+    margin-bottom: 2rem;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -89,9 +87,9 @@ const projects = ref([
 }
 
 .project-image {
-    height: 200px;
     background-size: cover;
     background-position: center;
+    border-radius: 5px;
     flex-shrink: 0;
 }
 
@@ -140,13 +138,19 @@ const projects = ref([
     font-size: 1rem;
 }
 
+@media (max-width: 1024px) {
+    .projects-grid {
+        columns: 2;
+    }
+}
+
 @media (max-width: 768px) {
     .projects {
         padding: 1rem;
     }
 
     .projects-grid {
-        grid-template-columns: 1fr;
+        columns: 1;
     }
 
     .project-buttons {

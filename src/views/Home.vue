@@ -3,10 +3,10 @@
     <div class="hero">
       <div class="content">
         <h1 class="title">你好，我是<span class="highlight">{{ displayedName }}</span></h1>
-        <p class="subtitle">全栈开发工程师 / UI设计师</p>
+        <p class="subtitle">{{ personalInfo.position }}</p>
         <div class="cta-buttons">
-          <router-link to="/projects" class="btn btn-primary">查看项目</router-link>
-          <router-link to="/resume" class="btn btn-secondary">个人简历</router-link>
+          <router-link to="/resume" class="btn btn-primary ">个人简历</router-link>
+          <router-link to="/projects" class="btn btn-secondary">查看项目</router-link>
         </div>
       </div>
     </div>
@@ -15,8 +15,9 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { personalInfo } from '../data/personalData';
 
-const fullName = '某某';
+const fullName = personalInfo.name;
 const displayedName = ref('');
 
 const typeText = () => {
