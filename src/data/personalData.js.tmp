@@ -84,16 +84,6 @@ export const resumeProjects = [
     }
 ];
 
-export const portfolioProjects = [
-    {
-        id: 1,
-        title: 'XX项目',
-        description: '项目描述，巴拉巴拉巴拉',
-        tags: ['Vue.js', 'JavaScript', 'Antdv', 'Node.js', 'PostgreSQL'],
-        demo: '',
-        github: 'https://github.com/'
-    },
-];
 
 export const skillLevels = {
     'Vue.js': 80,
@@ -130,4 +120,28 @@ export const sections = [
     { id: 'education', title: '教育经历' },
     { id: 'skills', title: '技能特长' },
     { id: 'projects', title: '项目经历' }
+];
+
+
+export const qrcodeTypes = {
+    wechat: {
+        title: '微信二维码',
+        imagePath: '/resume/wechat_qrcode.png'
+    },
+    telegram: {
+        title: 'Telegram二维码',
+        imagePath: '/resume/telegram_qrcode.png'
+    }
+};
+
+export const portfolioProjects = [
+    {
+        id: 1,
+        title: 'XX项目',
+        description: '项目描述，巴拉巴拉巴拉',
+        tags: ['Vue.js', 'JavaScript', 'Antdv', 'Node.js', 'PostgreSQL'],
+        demo: '',
+        image: '',
+        github: 'https://github.com/'
+    },
 ];

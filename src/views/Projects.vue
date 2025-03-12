@@ -3,10 +3,10 @@
         <h1 class="page-title">我的项目</h1>
         <div class="projects-grid">
             <div v-for="project in projects" :key="project.id" class="project-card card">
-
-                <img :src="project.image" class="project-image">
-
-                <!-- <div class="project-image" :style="{ backgroundImage: `url(${project.image})` }"></div> -->
+                <img :src="project.image" 
+                     :alt="project.title"
+                     @error="handleImageError(project)"
+                     class="project-image">
                 <div class="project-content">
                     <h2 class="project-title">{{ project.title }}</h2>
                     <p class="project-description">{{ project.description }}</p>
@@ -30,30 +30,34 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { portfolioProjects } from '../data/personalData';
-import Image1 from '../assets/projects/1.png'
-import Image2 from '../assets/projects/2.png'
-import Image3 from '../assets/projects/3.png'
 
-const projects = ref(portfolioProjects.map(project => {
-    // 根据项目ID匹配对应的图片
-    let image;
-    switch(project.id) {
-        case 1:
-            image = Image1;
-            break;
-        case 2:
-            image = Image2;
-            break;
-        case 3:
-            image = Image3;
-            break;
-        default:
-            image = '';
+const defaultImage = 'https://via.placeholder.com/400x300';
+const projects = ref([]);
+
+const loadProjectImage = async (projectId) => {
+    try {
+        const image = await import(`../assets/projects/${projectId}.png`);
+        return image.default;
+    } catch (error) {
+        console.warn(`Failed to load image for project ${projectId}:`, error);
+        return defaultImage;
     }
-    return { ...project, image };
-}));
+};
+
+const handleImageError = (project) => {
+    project.image = defaultImage;
+};
+
+onMounted(async () => {
+    projects.value = await Promise.all(
+        portfolioProjects.map(async (project) => {
+            const image = await loadProjectImage(project.id);
+            return { ...project, image };
+        })
+    );
+});
 </script>
 
 <style scoped>

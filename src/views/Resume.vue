@@ -167,22 +167,42 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import QrcodeModal from '../components/QrcodeModal.vue';
-import telegramQrcode from '../assets/resume/telegram_qrcode.png';
-import wechatQrcode from '../assets/resume/wechat_qrcode.png';
-import { personalInfo, education, workExperience, resumeProjects, skillLevels, skillCategories, otherSkills, sections } from '../data/personalData';
-
+import { personalInfo, education, workExperience, resumeProjects, skillLevels, skillCategories, otherSkills, sections, qrcodeTypes } from '../data/personalData';
 
 const showQrcode = ref(false);
 const qrcodeTitle = ref('');
 const qrcodeUrl = ref('');
+const projects = ref(resumeProjects);
+const showToc = ref(true);
+const showBackToTop = ref(false);
 
-const showQrcodeModal = (type) => {
-    qrcodeTitle.value = type === 'wechat' ? '微信二维码' : 'Telegram二维码';
-    qrcodeUrl.value = type === 'wechat' ? wechatQrcode : telegramQrcode;
-    showQrcode.value = true;
+const qrcodeLoading = ref(false);
+const qrcodeError = ref(false);
+
+const loadQrcode = async (type) => {
+    if (!qrcodeTypes[type]) {
+        console.error(`未知的二维码类型: ${type}`);
+        return null;
+    }
+    qrcodeLoading.value = true;
+    qrcodeError.value = false;
+    try {
+        const qrcode = await import(`../assets${qrcodeTypes[type].imagePath}`);
+        return qrcode.default;
+    } catch (err) {
+        console.error(`加载${type}二维码失败:`, err);
+        qrcodeError.value = true;
+        return null;
+    } finally {
+        qrcodeLoading.value = false;
+    }
 };
 
-const projects = ref(resumeProjects);
+const showQrcodeModal = async (type) => {
+    qrcodeTitle.value = qrcodeTypes[type].title;
+    qrcodeUrl.value = await loadQrcode(type);
+    showQrcode.value = true;
+};
 
 const getSkillLevel = (skill) => {
     return skillLevels[skill] || 70;  // 默认值70%
@@ -197,8 +217,7 @@ const copyToClipboard = async (text) => {
     }
 };
 
-const showToc = ref(true);
-const showBackToTop = ref(false);
+
 
 const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
